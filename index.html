@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: whitesmoke;
+            padding: 20px;
+        }
+        .container {
+            width: 96%;
+            margin: auto;
+            background: #d8f5b4ca;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .img_div{
+            width: 50%;
+        }
+        .img_div img{
+            width: 100%;
+            height: 560px;
+        }
+        .form_div{
+            width: 45%;
+        }
+    
+        h2 {
+            text-align: center;
+            margin-bottom: 5px;
+                }
+                hr{
+                    border: 1px solid rgb(96, 96, 225);
+                    margin-bottom: 20px;
+                }
+        input[type=text], input[type=email], input[type=tel], select,textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 16px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type=submit] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: #45a049;
+            cursor: pointer;
+        }
+#table_div{
+    width: 96%;
+    margin: auto;
+    margin-top: 50px;
+}
+table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border:3px solid rgba(107, 92, 245, 0.507);
+        border-radius: 5px;
+        text-align: center;
+    }
+    tr:nth-child(even){
+        background-color:rgba(141, 235, 238, 0.66);
+    }
+    th {
+        color: white;
+        background-color:rgb(20, 19, 19);
+        border-radius: 5px;
+    }
+        @media screen and (min-width:300px) and (max-width:1000px){
+            .container{
+            width: 96%;
+            margin: auto;
+            display: block;
+            }
+            .img_div{
+            width: 100%;
+        }
+        .img_div img{
+            width: 100%;
+            height: 560px;
+        }
+        .form_div{
+            width: 100%;
+        }
+        table, thead, tbody, th, td, tr {
+        display: block;
+        text-align: left;
+    }
+    th{
+display: none;
+    }
+    tr{
+        margin-top: 15px;
+    }
+
+}
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="img_div">
+            <img src="./image/form.png" alt="">
+        </div>
+        <div class="form_div">
+            <h2>Registration Form</h2><hr>
+        <form id="form" action="">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name.." required>
+    
+            <label for="mobile">Mobile</label>
+            <input type="tel" id="mobile" name="mobile" placeholder="Your mobile number.." required pattern="[0-9]{10}">
+    
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Your email.." required>
+    
+            <label for="city">City</label>
+            <select name="city" id="city">
+                <option >-------------------Select---------------</option>
+                <option>Jaipur</option>
+                <option>Sikar</option>
+                <option>Kota</option>
+                <option>Ajmer</option>
+            </select> 
+    
+            <label for="address">Address</label>
+            <textarea name="address" id="address" required placeholder="Your address......"></textarea>
+    
+            <input type="submit" id = "btn"  value="Register">
+        </form></div>
+        </div>
+        <div id="table_div"></div>
+</body>
+<script>
+    let arr= JSON.parse(localStorage.getItem("abc")) ||[];
+    let form = document.getElementById("form");
+    let btn = document.getElementById("btn")
+    btn.addEventListener("click", getvalue)
+
+    function getvalue(e){
+        e.preventDefault()
+        
+        if (form.checkValidity()) {
+                    let obj= {
+            name: document.getElementById("name").value,
+            mobile: document.getElementById("mobile").value,
+            email: document.getElementById("email").value,
+            city: document.getElementById("city").value,
+            address: document.getElementById("address").value
+          }
+          arr.push(obj)
+          localStorage.setItem("abc",JSON.stringify(arr))
+          displayValue(arr);
+          form.reset();
+}
+else{
+    form.reportValidity()
+    alert("Please fill all the details")
+}
+    }
+    function displayValue(xyz) {
+table_div.innerHTML=""
+let table= document.createElement("table")
+let thead= document.createElement("thead")
+let tbody= document.createElement("tbody")
+
+let tr= document.createElement("tr")
+let th= document.createElement("th")
+th.innerText= "Name"
+let th1= document.createElement("th")
+th1.innerText= "Mobile"
+let th2= document.createElement("th")
+th2.innerText= "Email"
+let th3= document.createElement("th")
+th3.innerText= "City"
+let th4= document.createElement("th")
+th4.innerText= "Address"
+tr.append(th,th1,th2,th3,th4)
+        thead.append(tr)
+        table.append(thead)
+
+xyz.forEach(element => {
+    let row = document.createElement("tr")
+    let d1 = document.createElement("td")
+d1.innerText=element.name
+let d2 = document.createElement("td")
+d2.innerText=element.mobile
+let d3 = document.createElement("td")
+d3.innerText=element.email
+let d4= document.createElement("td")
+d4.innerText=element.city
+let d5 = document.createElement("td")
+d5.innerText=element.address
+
+row.append(d1,d2,d3,d4,d5)
+tbody.append(row)
+});
+    table.append(tbody)
+    table_div.append(table)
+    }
+// displayValue(arr)
+</script>
+</html>
+
